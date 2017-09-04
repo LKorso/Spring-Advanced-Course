@@ -4,8 +4,11 @@ import beans.daos.UserDAO;
 import beans.models.User;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created with IntelliJ IDEA.
@@ -53,7 +56,6 @@ public class InMemoryUserDAO implements UserDAO {
             users.remove(user);
     }
 
-
     public User get(long id) {
         return db.get(id);
     }
@@ -63,11 +65,20 @@ public class InMemoryUserDAO implements UserDAO {
     }
 
     public List<User> getAllByName(String name) {
-        return dbNameIndex.get(name).stream().collect(Collectors.toList());
+        return new ArrayList<>(dbNameIndex.get(name));
     }
 
     @Override
     public List<User> getAll() {
-        return db.values().stream().collect(Collectors.toList());
+        return new ArrayList<>(db.values());
+    }
+
+    @PostConstruct
+    private void initDefaultUser() {
+        User defaultUser = new User(0, "John", "user@gmail.com", LocalDate.of(1990, 1, 1));
+        create(defaultUser);
+        System.out.println(db);
+        System.out.println(dbEmailIndex);
+        System.out.println(dbNameIndex);
     }
 }
