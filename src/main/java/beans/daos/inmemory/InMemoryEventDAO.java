@@ -3,8 +3,10 @@ package beans.daos.inmemory;
 import beans.daos.EventDAO;
 import beans.models.Auditorium;
 import beans.models.Event;
+import beans.models.Rate;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
@@ -104,6 +106,18 @@ public class InMemoryEventDAO implements EventDAO {
         final Stream<Event> filteredByDate = filterByDateTime(eventStream, dateTime);
         final Stream<Event> filteredByAuditorium = filterByAuditorium(filteredByDate, auditorium);
         return filteredByAuditorium.collect(Collectors.toList());
+    }
+
+    @PostConstruct
+    private void initBasicEvents() {
+        Auditorium auditoriumOne = new Auditorium(1, "Auditorium One", 100, "");
+        Event eventOne = new Event(1, "Event One", Rate.LOW, 250.50,
+                LocalDateTime.of(2017, 9, 20, 14, 10), auditoriumOne);
+        Auditorium auditoriumTwo = new Auditorium(2, "Auditorium Two", 100, "");
+        Event eventTwo = new Event(2, "Event Two", Rate.HIGH, 499.99,
+                LocalDateTime.of(2017, 10, 10, 20, 10), auditoriumTwo);
+        create(eventOne);
+        create(eventTwo);
     }
 
     private Event safeUpdate(Event event) {

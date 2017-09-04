@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -46,5 +47,15 @@ public class InMemoryAuditoriumDAO implements AuditoriumDAO {
     @Override
     public Auditorium add(Auditorium auditorium) {
         throw new UnsupportedOperationException("not implemented");
+    }
+
+    @PostConstruct
+    private void initBasicAuditoriums() {
+        Auditorium auditoriumOne = new Auditorium(1, "Auditorium One", 100, "");
+        Auditorium auditoriumTwo = new Auditorium(2, "Auditorium Two", 100, "");
+        Auditorium auditoriumThree = new Auditorium(3, "Auditorium Three", 100, "");
+        add(auditoriumOne);
+        add(auditoriumTwo);
+        add(auditoriumThree);
     }
 }
