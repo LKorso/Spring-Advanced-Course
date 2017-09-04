@@ -48,14 +48,4 @@ public class InMemoryAuditoriumDAO implements AuditoriumDAO {
     public Auditorium add(Auditorium auditorium) {
         throw new UnsupportedOperationException("not implemented");
     }
-
-    @PostConstruct
-    private void initBasicAuditoriums() {
-        Auditorium auditoriumOne = new Auditorium(1, "Auditorium One", 100, "");
-        Auditorium auditoriumTwo = new Auditorium(2, "Auditorium Two", 100, "");
-        Auditorium auditoriumThree = new Auditorium(3, "Auditorium Three", 100, "");
-        add(auditoriumOne);
-        add(auditoriumTwo);
-        add(auditoriumThree);
-    }
 }

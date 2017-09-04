@@ -42,7 +42,7 @@ public class BookingServiceImpl implements BookingService {
                               @Qualifier("auditoriumServiceImpl") AuditoriumService auditoriumService,
                               @Qualifier("userServiceImpl") UserService userService,
                               @Qualifier("discountServiceImpl") DiscountService discountService,
-                              @Qualifier("bookingDAO") BookingDAO bookingDAO,
+                              @Qualifier("inMemoryBookingDAO") BookingDAO bookingDAO,
                               @Value("${min.seat.number}") int minSeatNumber,
                               @Value("${vip.seat.price.multiplier}") double vipSeatPriceMultiplier,
                               @Value("${high.rate.price.multiplier}") double highRatedPriceMultiplier,
