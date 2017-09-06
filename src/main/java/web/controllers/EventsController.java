@@ -1,4 +1,4 @@
-package beans.controllers;
+package web.controllers;
 
 import beans.models.Event;
 import beans.services.EventService;
