@@ -2,6 +2,7 @@ package beans.daos.inmemory;
 
 import beans.daos.UserDAO;
 import beans.models.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -22,6 +23,10 @@ public class InMemoryUserDAO implements UserDAO {
     private static final Map<Long, User>        db           = new TreeMap<>();
     private static final Map<String, User>      dbEmailIndex = new TreeMap<>();
     private static final Map<String, Set<User>> dbNameIndex  = new TreeMap<>();
+
+    public InMemoryUserDAO(@Value("#{baseUsers}") List<User> users) {
+        users.forEach(user -> db.put(user.getId(), user));
+    }
 
     public User create(User user) {
         UserDAO.validateUser(user);
@@ -73,12 +78,4 @@ public class InMemoryUserDAO implements UserDAO {
         return new ArrayList<>(db.values());
     }
 
-    @PostConstruct
-    private void initDefaultUser() {
-        User defaultUser = new User(0, "John", "user@gmail.com", LocalDate.of(1990, 1, 1));
-        create(defaultUser);
-        System.out.println(db);
-        System.out.println(dbEmailIndex);
-        System.out.println(dbNameIndex);
-    }
 }

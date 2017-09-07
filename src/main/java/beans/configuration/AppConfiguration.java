@@ -1,7 +1,9 @@
 package beans.configuration;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 /**
@@ -11,6 +13,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * Time: 1:12 PM
  */
 @Configuration
+@ComponentScan("beans")
+@EnableAspectJAutoProxy
 public class AppConfiguration {
 
     @Bean
