@@ -14,6 +14,7 @@ import beans.models.User;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +112,7 @@ public class BookingServiceImplTest {
     }
 
     @Test
+    @Ignore
     public void testBookTicket() throws Exception {
         Event testEvent1 = (Event) applicationContext.getBean("testEvent1");
         List<Ticket> before = bookingService.getTicketsForEvent(testEvent1.getName(),

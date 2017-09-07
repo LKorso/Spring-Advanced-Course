@@ -5,6 +5,8 @@ import beans.models.Auditorium;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Dmytro_Babichev

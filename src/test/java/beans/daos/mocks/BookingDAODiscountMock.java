@@ -8,6 +8,8 @@ import beans.models.User;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.stereotype.Repository;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Dmytro_Babichev

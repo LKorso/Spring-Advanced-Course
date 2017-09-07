@@ -7,6 +7,8 @@ import beans.models.User;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.stereotype.Repository;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Dmytro_Babichev
