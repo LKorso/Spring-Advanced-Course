@@ -16,7 +16,7 @@
         <td>${event.getAuditorium().getName()}</td>
         <td>
             <button>
-                <a href="booking/ticket?eventName=${event.getName()}&time=${event.getDateTime()}&auditorium=${event.getAuditorium().getName()}"/>
+                <a href="booking/tickets?eventName=${event.getName()}&time=${event.getDateTime()}&auditorium=${event.getAuditorium().getName()}"/>
                 Tickets
             </button>
         </td>

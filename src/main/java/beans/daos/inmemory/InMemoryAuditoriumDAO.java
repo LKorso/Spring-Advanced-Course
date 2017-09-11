@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,7 +31,7 @@ public class InMemoryAuditoriumDAO implements AuditoriumDAO {
 
     @Override
     public List<Auditorium> getAll() {
-        return db.stream().collect(Collectors.toList());
+        return new ArrayList<>(db);
     }
 
     @Override

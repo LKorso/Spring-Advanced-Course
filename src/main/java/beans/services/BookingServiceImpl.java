@@ -2,6 +2,7 @@ package beans.services;
 
 import beans.daos.BookingDAO;
 import beans.models.*;
+import util.CsvUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -131,9 +133,12 @@ public class BookingServiceImpl implements BookingService {
         List<Ticket> bookedTickets = bookingDAO.getTickets(ticket.getEvent());
         boolean seatsAreAlreadyBooked = bookedTickets
                 .stream()
-                .filter(bookedTicket -> ticket.getSeatsList().stream().anyMatch(bookedTicket.getSeatsList()::contains))
-                .findAny()
-                .isPresent();
+                .anyMatch(
+                        bookedTicket -> ticket
+                                .getSeatsList()
+                                .stream()
+                                .anyMatch(bookedTicket.getSeatsList()::contains)
+                         );
 
         if (!seatsAreAlreadyBooked) {
             bookingDAO.create(user, ticket);
@@ -149,5 +154,24 @@ public class BookingServiceImpl implements BookingService {
         final Auditorium auditorium = auditoriumService.getByName(auditoriumName);
         final Event foundEvent = eventService.getEvent(event, auditorium, date);
         return bookingDAO.getTickets(foundEvent);
+    }
+
+    @Override
+    public List<Integer> getFreeSeats(String event, String auditoriumName, LocalDateTime date) {
+        List<Ticket> bookedTickets = getTicketsForEvent(event, auditoriumName, date);
+        final int seatsNumber = auditoriumService.getByName(auditoriumName).getSeatsNumber();
+        List<Integer> seatsNumbers = getSeatsList(seatsNumber);
+        if (!bookedTickets.isEmpty()) {
+            bookedTickets.forEach(t -> seatsNumbers.removeAll(CsvUtil.fromCsvToList(t.getSeats(), Integer::new)));
+        }
+        return seatsNumbers;
+    }
+
+    private List<Integer> getSeatsList(int numberOfSeats) {
+        List<Integer> seatsNumbers = new ArrayList<>();
+        for (int i = 1; i <= numberOfSeats; i++) {
+            seatsNumbers.add(i);
+        }
+        return seatsNumbers;
     }
 }

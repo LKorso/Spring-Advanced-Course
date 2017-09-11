@@ -16,7 +16,7 @@ import web.converters.StringToLocalDateTimeConverter;
 @ComponentScan("web")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-    private static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    private static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm";
 
     @Override
     public void addFormatters(FormatterRegistry registry) {

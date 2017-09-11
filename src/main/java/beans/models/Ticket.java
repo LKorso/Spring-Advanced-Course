@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Ticket {
 
-    private long          id;
+    private static long          id = 9999;
     private Event         event;
     private LocalDateTime dateTime;
     private String        seats;
@@ -24,7 +24,7 @@ public class Ticket {
     }
 
     public Ticket(Event event, LocalDateTime dateTime, List<Integer> seats, User user, double price) {
-        this(-1, event, dateTime, seats, user, price);
+        this(id++ , event, dateTime, seats, user, price);
     }
 
     public Ticket(long id, Event event, LocalDateTime dateTime, List<Integer> seats, User user, Double price) {

@@ -50,7 +50,7 @@ public class InMemoryBookingDAO implements BookingDAO {
     @Override
     public List<Ticket> getTickets(User user) {
         BookingDAO.validateUser(user);
-        return db.getOrDefault(user.getEmail(), Collections.emptySet()).stream().collect(Collectors.toList());
+        return new ArrayList<>(db.getOrDefault(user.getEmail(), Collections.emptySet()));
     }
 
     @Override

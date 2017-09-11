@@ -26,7 +26,7 @@ public class InMemoryEventDAO implements EventDAO {
     private static final Map<String, List<Event>> db = new HashMap<>();
 
     public InMemoryEventDAO(@Value("#{basicEvents}") List<Event> events) {
-        db.put("base", events);
+        events.forEach(this::update);
     }
 
     @Override
