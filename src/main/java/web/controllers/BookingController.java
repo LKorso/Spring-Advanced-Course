@@ -70,7 +70,7 @@ public class BookingController {
         attributes.put("eventName", eventName);
         attributes.put("time", time.toString());
         attributes.put("auditorium", auditorium);
-        return new ModelAndView("redirect:/tickets", attributes);
+        return new ModelAndView("redirect:/mvc/booking/tickets", attributes);
     }
 
 }
