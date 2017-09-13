@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Ticket {
 
-    private static long          id = 9999;
+    private static long   id = -1;
     private Event         event;
     private LocalDateTime dateTime;
     private String        seats;
@@ -32,7 +32,7 @@ public class Ticket {
     }
 
     public Ticket(long id, Event event, LocalDateTime dateTime, String seats, User user, Double price) {
-        this.id = id;
+        Ticket.id = id;
         this.event = event;
         this.dateTime = dateTime;
         this.user = user;

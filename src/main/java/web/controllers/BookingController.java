@@ -50,6 +50,8 @@ public class BookingController {
         model.addAttribute("eventName", eventName);
         model.addAttribute("time", time);
         model.addAttribute("auditorium", auditorium);
+        List<Ticket> tickets = bookingService.getTicketsForEvent(eventName, auditorium, time);
+        model.addAttribute("tickets", tickets);
         return "tickets";
     }
 
@@ -71,6 +73,14 @@ public class BookingController {
         attributes.put("time", time.toString());
         attributes.put("auditorium", auditorium);
         return new ModelAndView("redirect:/mvc/booking/tickets", attributes);
+    }
+
+    @PostMapping("/tickets/print/pdf")
+    public void generatePdf(@RequestParam("eventName") String eventName,
+                            @RequestParam("time") LocalDateTime time,
+                            @RequestParam("auditorium") String auditorium) {
+        List<Ticket> tickets = bookingService.getTicketsForEvent(eventName, auditorium, time);
+        bookingService.createTicketsPdf(tickets);
     }
 
 }

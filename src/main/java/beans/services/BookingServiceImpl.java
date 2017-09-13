@@ -2,6 +2,7 @@ package beans.services;
 
 import beans.daos.BookingDAO;
 import beans.models.*;
+import beans.services.fileservices.pdf.TicketPdfWriter;
 import util.CsvUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class BookingServiceImpl implements BookingService {
     private final UserService userService;
     private final BookingDAO bookingDAO;
     private final DiscountService discountService;
+    private final TicketPdfWriter ticketPdfWriter;
     private final int minSeatNumber;
     private final double vipSeatPriceMultiplier;
     private final double highRatedPriceMultiplier;
@@ -45,6 +47,7 @@ public class BookingServiceImpl implements BookingService {
                               @Qualifier("userServiceImpl") UserService userService,
                               @Qualifier("discountServiceImpl") DiscountService discountService,
                               @Qualifier("inMemoryBookingDAO") BookingDAO bookingDAO,
+                              @Autowired TicketPdfWriter ticketPdfWriter,
                               @Value("${min.seat.number}") int minSeatNumber,
                               @Value("${vip.seat.price.multiplier}") double vipSeatPriceMultiplier,
                               @Value("${high.rate.price.multiplier}") double highRatedPriceMultiplier,
@@ -58,6 +61,7 @@ public class BookingServiceImpl implements BookingService {
         this.vipSeatPriceMultiplier = vipSeatPriceMultiplier;
         this.highRatedPriceMultiplier = highRatedPriceMultiplier;
         this.defaultRateMultiplier = defaultRateMultiplier;
+        this.ticketPdfWriter = ticketPdfWriter;
     }
 
     @Override
@@ -165,6 +169,16 @@ public class BookingServiceImpl implements BookingService {
             bookedTickets.forEach(t -> seatsNumbers.removeAll(CsvUtil.fromCsvToList(t.getSeats(), Integer::new)));
         }
         return seatsNumbers;
+    }
+
+    @Override
+    public String createTicketPdf(Ticket ticket) {
+        return ticketPdfWriter.writeDocument(ticket);
+    }
+
+    @Override
+    public String createTicketsPdf(List<Ticket> tickets) {
+        return ticketPdfWriter.writeDocuments(tickets);
     }
 
     private List<Integer> getSeatsList(int numberOfSeats) {

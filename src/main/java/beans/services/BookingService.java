@@ -21,4 +21,8 @@ public interface BookingService {
     List<Ticket> getTicketsForEvent(String event, String auditorium, LocalDateTime date);
 
     List<Integer> getFreeSeats(String event, String auditoriumName, LocalDateTime date);
+
+    String createTicketPdf(Ticket ticket);
+
+    String createTicketsPdf(List<Ticket> tickets);
 }
