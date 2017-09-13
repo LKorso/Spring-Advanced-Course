@@ -1,18 +1,26 @@
 package web.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import beans.models.Ticket;
@@ -76,11 +84,23 @@ public class BookingController {
     }
 
     @PostMapping("/tickets/print/pdf")
+    @ResponseBody
     public void generatePdf(@RequestParam("eventName") String eventName,
-                            @RequestParam("time") LocalDateTime time,
-                            @RequestParam("auditorium") String auditorium) {
+                     @RequestParam("time") LocalDateTime time,
+                     @RequestParam("auditorium") String auditorium,
+                     HttpServletResponse response) {
         List<Ticket> tickets = bookingService.getTicketsForEvent(eventName, auditorium, time);
-        bookingService.createTicketsPdf(tickets);
+        String filePath = bookingService.createTicketsPdf(tickets);
+
+        File file = new File(filePath);
+        try (InputStream inputStream = new FileInputStream(file)) {
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
+            response.setHeader("Content-Length", String.valueOf(file.length()));
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

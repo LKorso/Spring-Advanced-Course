@@ -56,7 +56,7 @@ public class TicketPdfWriter implements FileWriter<Ticket> {
 
     @Override
     public String generateFileName(Ticket document) {
-        return "ticket_" + document.getEvent().getName() + ".pdf";
+        return ("ticket_" + document.getEvent().getName() + ".pdf").replace(" ", "_");
     }
 
     private void writeOnePage(PDPageContentStream contentStream, Ticket document) throws IOException{
