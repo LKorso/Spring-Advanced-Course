@@ -23,5 +23,9 @@
     </tr>
 </#list>
 </table>
+<form action="/mvc/mvc/events/load" method="Post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <button>LOAD EVENTS</button>
+</form>
 </body>
 </html>

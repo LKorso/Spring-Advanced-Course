@@ -1,11 +1,12 @@
 package web.config;
 
+import org.springframework.core.annotation.Order;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
 import beans.configuration.AppConfiguration;
 import beans.configuration.AuditoriumConfiguration;
 import beans.configuration.EventConfiguration;
 import beans.configuration.StrategiesConfiguration;
-import org.springframework.core.annotation.Order;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 @Order(2)
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -30,4 +31,5 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     protected String[] getServletMappings() {
         return new String[] {"/mvc/*"};
     }
+
 }
